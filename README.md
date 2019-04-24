@@ -85,7 +85,7 @@ Rsbeat has the following config fields.
 ```yaml
 rsbeat:
   period: 1s 
-  redis: ["192.168.33.10:6379"]
+  redis: ["192.168.33.10:6379:mymaster"]
   slowerThan: 100 
 ```
 * rsbeat.period: Defines how often an event is sent to the output.
