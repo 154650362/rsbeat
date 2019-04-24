@@ -4,6 +4,6 @@
 
 rsbeat:
   # Defines how often an event is sent to the output
-  period: 1s
-  redis: ["127.0.0.1:6379"]
+  period: 60s
+  redis: ["127.0.0.1:6379:mymaster"]
   slowerThan: 100
