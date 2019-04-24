@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+    rsbeat:
+       build: .
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:5.4.0
+        environment:
+          - cluster.name=rsbeat-es
+          - bootstrap.memory_lock=false
+          - xpack.security.enabled=false
+        volumes:
+          - esdata:/usr/share/elasticsearch/data
+        ports:
+          - 9200:9200
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:5.4.0
+        environment:
+          - xpack.security.enabled=false
+        links:
+            - elasticsearch:elasticsearch
+        ports:
+            - "5601:5601"
+
+volumes:
+    esdata:
+        driver: local

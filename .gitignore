@@ -1,0 +1,10 @@
+/.idea
+*.iml
+/build
+
+.DS_Store
+/rsbeat
+/rsbeat.test
+*.pyc
+vendor
+logs

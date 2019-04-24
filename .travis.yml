@@ -1,0 +1,48 @@
+sudo: required
+dist: trusty
+services:
+  - docker
+
+language: go
+
+go:
+  - 1.7
+
+os:
+  - linux
+
+env:
+  matrix:
+    - TARGETS="check"
+    - TARGETS="testsuite"
+
+  global:
+    # Cross-compile for amd64 only to speed up testing.
+    - GOX_FLAGS="-arch amd64"
+
+addons:
+  apt:
+    packages:
+      - python-virtualenv
+      - glide
+    sources:
+      - sourceline: 'ppa:masterminds/glide'
+
+before_install:
+  # Redo the travis setup but with the elastic/libbeat path. This is needed so the package path is correct
+  - mkdir -p $HOME/gopath/src/github.com/yourdream/rsbeat/
+  - rsync -az ${TRAVIS_BUILD_DIR}/ $HOME/gopath/src/github.com/yourdream/rsbeat/
+  - export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/yourdream/rsbeat/
+  - cd $HOME/gopath/src/github.com/yourdream/rsbeat/
+
+install:
+  - go get github.com/elastic/beats/libbeat
+  - go get github.com/garyburd/redigo/redis
+  - make setup
+
+script:
+
+  - make $TARGETS
+
+after_success:
+  # Copy full.cov to coverage.txt because codecov.io requires this file

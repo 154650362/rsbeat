@@ -1,0 +1,9 @@
+################### Rsbeat Configuration Example #########################
+
+############################# Rsbeat ######################################
+
+rsbeat:
+  # Defines how often an event is sent to the output
+  period: 1s
+  redis: ["127.0.0.1:6379"]
+  slowerThan: 100
